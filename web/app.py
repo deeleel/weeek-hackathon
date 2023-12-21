@@ -1,14 +1,17 @@
 import gradio as gr
 import os
-os.system('python -m spacy download en_core_web_sm')
+import pickle
+# os.system('python -m spacy download en_core_web_sm')
 import spacy
 from spacy import displacy
 
-nlp = spacy.load("en_core_web_sm")
+nlp = pickle.load(open("nlp.p", 'rb'))
+# nlp = model.to_disc('my_model')
+# nlp = spacy.from_disk("../spacy/final_2/")
 
 def text_analysis(text):
     doc = nlp(text)
-    html = displacy.render(doc, style="dep", page=True)
+    html = displacy.render(doc, style="ent", page=True)
     html = (
         "<div style='max-width:100%; max-height:360px; overflow:auto'>"
         + html
@@ -16,22 +19,22 @@ def text_analysis(text):
     )
     pos_count = {
         "char_count": len(text),
-        "token_count": 0,
+        "token_count": len(doc.ents),
     }
-    pos_tokens = []
+    # pos_tokens = []
+    #
+    # for token in doc:
+    #     pos_tokens.extend([(token.text, "NOUN"), (" ", None)])
 
-    for token in doc:
-        pos_tokens.extend([(token.text, token.pos_), (" ", None)])
-
-    return pos_tokens, pos_count, html
+    return pos_count, html
 
 demo = gr.Interface(
     text_analysis,
     gr.Textbox(placeholder="Enter sentence here..."),
-    ["highlight", "json", "html"],
+    ["json", "html"],
     examples=[
-        ["What a beautiful morning for a walk!"],
-        ["It was the best of times, it was the worst of times."],
+        ["Создать задачу : Подготовить отчет к 15:00 завтра на Анну"],
+        ["Создать заметку: Проверить документацию к 9 : 30 утра завтра на Дениса"],
     ],
 )
 
