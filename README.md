@@ -23,3 +23,6 @@
 
 ## Презентация
 https://docs.google.com/presentation/d/1GJ2eLmNa1yechN6k-K4Jj2d8aj7AswPm/edit?usp=sharing&ouid=118037884440268728238&rtpof=true&sd=true
+
+## Демо
+https://huggingface.co/spaces/ru4rg/weeek-mipt
